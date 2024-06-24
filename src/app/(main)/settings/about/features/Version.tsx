@@ -21,12 +21,19 @@ const useStyles = createStyles(({ css, token }) => ({
 }));
 
 const Version = memo<{ mobile?: boolean }>(({ mobile }) => {
-  const [hasNewVersion, latestVersion] = useGlobalStore((s) => [s.hasNewVersion, s.latestVersion]);
+  const [hasNewVersion, latestVersion, useCheckLatestVersion] = useGlobalStore((s) => [
+    s.hasNewVersion,
+    s.latestVersion,
+    s.useCheckLatestVersion,
+  ]);
   const { t } = useTranslation('common');
   const { styles, theme } = useStyles();
+
+  useCheckLatestVersion();
+
   return (
     <Flexbox
-      align={'center'}
+      align={mobile ? 'stretch' : 'center'}
       gap={16}
       horizontal={!mobile}
       justify={'space-between'}
@@ -41,15 +48,17 @@ const Version = memo<{ mobile?: boolean }>(({ mobile }) => {
         <Flexbox>
           <div style={{ fontSize: 18, fontWeight: 'bolder' }}>LobeChat</div>
           <div>
-            <Tag
-              bordered={false}
-              color={theme.colorFillSecondary}
-              style={{ color: theme.colorTextSecondary }}
-            >
+            <Tag color={theme.colorFillSecondary} style={{ color: theme.colorTextSecondary }}>
               v{CURRENT_VERSION}
             </Tag>
             {hasNewVersion && (
-              <Tag bordered={false} color={'warning'}>
+              <Tag
+                bordered={false}
+                style={{
+                  background: theme.colorInfoBgHover,
+                  color: theme.colorInfo,
+                }}
+              >
                 {t('upgradeVersion.newVersion', { version: `v${latestVersion}` })}
               </Tag>
             )}
