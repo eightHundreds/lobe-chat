@@ -11,9 +11,10 @@ export interface BuiltinTypeProps {
   id: string;
   identifier?: string;
   loading?: boolean;
+  pluginState?: any;
 }
 
-const BuiltinType = memo<BuiltinTypeProps>(({ content, id, identifier, loading }) => {
+const BuiltinType = memo<BuiltinTypeProps>(({ content, pluginState, id, identifier, loading }) => {
   const { isJSON, data } = useParseContent(content);
 
   if (!isJSON) {
@@ -24,7 +25,7 @@ const BuiltinType = memo<BuiltinTypeProps>(({ content, id, identifier, loading }
 
   if (!Render) return;
 
-  return <Render content={data} identifier={identifier} messageId={id} />;
+  return <Render content={data} identifier={identifier} messageId={id} pluginState={pluginState} />;
 });
 
 export default BuiltinType;

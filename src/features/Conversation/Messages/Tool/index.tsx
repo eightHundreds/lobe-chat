@@ -10,7 +10,7 @@ import PluginRender from '../../Plugins/Render';
 import Arguments from '../components/Arguments';
 import Inspector from './Inspector';
 
-export const ToolMessage = memo<ChatMessage>(({ id, content, plugin }) => {
+export const ToolMessage = memo<ChatMessage>(({ id, content, pluginState, plugin }) => {
   const loading = useChatStore(chatSelectors.isPluginApiInvoking(id));
 
   const [showRender, setShow] = useState(plugin?.type !== 'default');
@@ -33,6 +33,7 @@ export const ToolMessage = memo<ChatMessage>(({ id, content, plugin }) => {
           identifier={plugin?.identifier}
           loading={loading}
           payload={plugin}
+          pluginState={pluginState}
           type={plugin?.type}
         />
       ) : (
